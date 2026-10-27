@@ -1,0 +1,66 @@
+{
+  "packageId": "com.school.mdmautoregister",
+  "host": "mdm.yourdomain.com",
+  "name": "MDM Daily Auto Register",
+  "launcherName": "MDM Register",
+  "themeColor": "#0284c7",
+  "navigationColor": "#0f172a",
+  "navigationColorDark": "#0f172a",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#0f172a",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://mdm.yourdomain.com/pwa-512x512.png",
+  "maskableIconUrl": "https://mdm.yourdomain.com/pwa-maskable-512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "mdm-release-key"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "Daily Meal Entry",
+      "shortName": "Daily Entry",
+      "url": "/?tab=daily",
+      "icon": "https://mdm.yourdomain.com/pwa-192x192.png"
+    },
+    {
+      "name": "Monthly Register",
+      "shortName": "Register",
+      "url": "/?tab=monthly",
+      "icon": "https://mdm.yourdomain.com/pwa-192x192.png"
+    },
+    {
+      "name": "Commodity Stocks",
+      "shortName": "Stocks",
+      "url": "/?tab=stocks",
+      "icon": "https://mdm.yourdomain.com/pwa-192x192.png"
+    },
+    {
+      "name": "Cash Voucher",
+      "shortName": "Voucher",
+      "url": "/?tab=reports&sub=voucher",
+      "icon": "https://mdm.yourdomain.com/pwa-192x192.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://mdm.yourdomain.com/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "minSdkVersion": 21,
+  "targetSdkVersion": 36,
+  "compileSdkVersion": 36,
+  "features": {
+    "playBilling": {
+      "enabled": false
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false
+}

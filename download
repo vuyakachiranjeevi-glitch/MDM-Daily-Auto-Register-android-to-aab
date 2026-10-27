@@ -1,0 +1,15 @@
+node_modules
+dist
+build
+.git
+.data
+.backup
+*.keystore
+*.jks
+*.aab
+*.apk
+*.zip
+.env
+.env.*
+npm-debug.log*
+.DS_Store

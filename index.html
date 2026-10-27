@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>MDM Daily Auto Register - Mid-Day Meal Management</title>
+    
+    <script>
+      // Vite dev HMR WebSocket handler for AI Studio environment (where HMR WebSocket port is closed)
+      (function () {
+        if (typeof window !== 'undefined' && typeof window.WebSocket !== 'undefined') {
+          var NativeWebSocket = window.WebSocket;
+
+          function isViteHmr(url, protocols) {
+            var urlStr = String(url || '');
+            if (urlStr.includes('vite') || urlStr.includes('token=') || urlStr.includes('24678') || urlStr.includes(':3000')) {
+              return true;
+            }
+            if (protocols === 'vite-hmr' || protocols === 'vite-ping' || (Array.isArray(protocols) && (protocols.includes('vite-hmr') || protocols.includes('vite-ping')))) {
+              return true;
+            }
+            return false;
+          }
+
+          function createHmrSocket(url, protocols) {
+            var ws = Object.create(NativeWebSocket.prototype);
+            var listeners = {};
+
+            function defProp(prop, val) {
+              var currentVal = val;
+              Object.defineProperty(ws, prop, {
+                get: function () { return currentVal; },
+                set: function (v) { currentVal = v; },
+                configurable: true,
+                enumerable: true
+              });
+            }
+
+            defProp('url', String(url || ''));
+            defProp('protocol', Array.isArray(protocols) ? protocols[0] : (protocols || 'vite-hmr'));
+            defProp('readyState', 1); // WebSocket.OPEN
+            defProp('bufferedAmount', 0);
+            defProp('extensions', '');
+            defProp('binaryType', 'blob');
+            defProp('onopen', null);
+            defProp('onclose', null);
+            defProp('onerror', null);
+            defProp('onmessage', null);
+
+            ws.addEventListener = function (type, listener) {
+              listeners[type] = listeners[type] || [];
+              listeners[type].push(listener);
+            };
+
+            ws.removeEventListener = function (type, listener) {
+              if (listeners[type]) {
+                listeners[type] = listeners[type].filter(function (fn) { return fn !== listener; });
+              }
+            };
+
+            ws.dispatchEvent = function (evt) {
+              var arr = listeners[evt.type] || [];
+              for (var i = 0; i < arr.length; i++) {
+                try { arr[i].call(ws, evt); } catch (e) {}
+              }
+              if (typeof ws['on' + evt.type] === 'function') {
+                try { ws['on' + evt.type].call(ws, evt); } catch (e) {}
+              }
+              return true;
+            };
+
+            ws.send = function () {};
+            ws.close = function (code, reason) {
+              ws.readyState = 3; // WebSocket.CLOSED
+              var evt = { type: 'close', wasClean: true, code: code || 1000, reason: reason || '', target: ws };
+              ws.dispatchEvent(evt);
+            };
+
+            setTimeout(function () {
+              if (ws.readyState === 1) {
+                var evt = { type: 'open', target: ws };
+                ws.dispatchEvent(evt);
+              }
+            }, 0);
+
+            return ws;
+          }
+
+          function ViteHmrStub(url, protocols) {
+            if (!isViteHmr(url, protocols)) {
+              return new NativeWebSocket(url, protocols);
+            }
+            return createHmrSocket(url, protocols);
+          }
+
+          ViteHmrStub.prototype = NativeWebSocket.prototype;
+          ViteHmrStub.CONNECTING = 0;
+          ViteHmrStub.OPEN = 1;
+          ViteHmrStub.CLOSING = 2;
+          ViteHmrStub.CLOSED = 3;
+
+          window.WebSocket = ViteHmrStub;
+        }
+
+        // Catch and prevent any stray unhandled rejection from @vite/client or HMR
+        window.addEventListener('unhandledrejection', function (event) {
+          var reason = event && event.reason;
+          var msg = String((reason && (reason.message || reason)) || '');
+          var stack = String((reason && reason.stack) || '');
+          if (
+            msg.includes('WebSocket') ||
+            msg.includes('@vite/client') ||
+            msg.includes('ViteHmr') ||
+            stack.includes('@vite/client') ||
+            stack.includes('ViteHmr')
+          ) {
+            event.preventDefault();
+          }
+        });
+        window.addEventListener('error', function (event) {
+          var file = String((event && event.filename) || '');
+          var msg = String((event && event.message) || '');
+          if (
+            file.includes('@vite/client') ||
+            msg.includes('WebSocket') ||
+            msg.includes('@vite/client') ||
+            msg.includes('ViteHmr')
+          ) {
+            event.preventDefault();
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+    
+    <!-- PWA Manifest & App Identity -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/manifest+json" href="/manifest.webmanifest" />
+    
+    <!-- Favicons and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#0284c7" />
+
+    <!-- Color & Browser UI Capabilities -->
+    <meta name="theme-color" content="#0284c7" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MDM Auto Register" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="MDM Daily Auto Register" />
+    <meta name="description" content="Mid-Day Meal (MDM) Daily Auto Register, Commodity Stock Tracking, Cash Voucher, and Monthly PM-POSHAN Reports for Schools." />
+    <meta property="og:title" content="MDM Daily Auto Register" />
+    <meta property="og:description" content="Mid-Day Meal (MDM) Daily Auto Register, Commodity Stock Tracking, Cash Voucher, and Monthly PM-POSHAN Reports for Schools." />
+    <meta property="og:image" content="/pwa-512x512.png" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Service Worker Registration for PWA
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/sw.js', { scope: '/' })
+            .then((registration) => {
+              console.log('MDM PWA ServiceWorker registration successful with scope:', registration.scope);
+              
+              // Handle update notifications
+              registration.onupdatefound = () => {
+                const installingWorker = registration.installing;
+                if (installingWorker) {
+                  installingWorker.onstatechange = () => {
+                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      console.log('New content available; please refresh.');
+                    }
+                  };
+                }
+              };
+            })
+            .catch((err) => {
+              console.warn('MDM PWA ServiceWorker registration failed:', err);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
+

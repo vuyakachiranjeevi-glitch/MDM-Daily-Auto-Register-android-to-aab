@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isBackendServer() {
+      return request.resource != null &&
+        request.resource.data._backendAuthToken == 'mdm_backend_secure_token_71a44c73_prod';
+    }
+
+    function isExistingBackendServer() {
+      return resource != null &&
+        resource.data._backendAuthToken == 'mdm_backend_secure_token_71a44c73_prod';
+    }
+
+    // School Operational Data: Restricted to authenticated sessions or backend server
+    match /school_data/{documentId} {
+      allow read: if request.auth != null || isExistingBackendServer();
+      allow create, update: if isBackendServer() || (request.auth != null && (request.auth.uid == documentId || request.auth.token.schoolId == documentId));
+      allow delete: if isExistingBackendServer() || (request.auth != null && (request.auth.uid == documentId || request.auth.token.schoolId == documentId));
+    }
+
+    // School Accounts: Protected credentials accessible only via server-side verification
+    match /school_accounts/{documentId} {
+      allow read: if isExistingBackendServer();
+      allow create, update: if isBackendServer();
+      allow delete: if isExistingBackendServer();
+    }
+  }
+}

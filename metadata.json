@@ -1,0 +1,8 @@
+{
+  "name": "MDM Daily Auto Register",
+  "description": "Mid-Day Meal (MDM) Daily Auto Register, Commodity Stock Tracking, Cash Voucher, and Monthly PM-POSHAN Reports for Schools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

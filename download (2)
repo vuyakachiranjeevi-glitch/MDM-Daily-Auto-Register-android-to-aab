@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+dist-ssr/
+*.local
+
+# Data and backups
+.data/
+.backup/
+*.bak
+
+# Archives and source dumps
+*.zip
+*.tar.gz
+*.tgz
+
+# Mobile & Release Artifacts
+android-release/
+*.keystore
+*.jks
+
+# Logs & Environment
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env*.local
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+
+# Firebase
+.firebase/
+.firebaserc
+
+# OS
+.DS_Store
+Thumbs.db

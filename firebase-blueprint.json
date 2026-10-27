@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "SchoolData": {
+      "title": "SchoolData",
+      "description": "Midday meal school portal master records and transaction history with multi-school isolation.",
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "Serialized data payloads representing different sections."
+        },
+        "schoolId": {
+          "type": "string",
+          "description": "Unique identifier of the school owning this isolated dataset."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last modification."
+        },
+        "_backendAuthToken": {
+          "type": "string",
+          "description": "Backend authentication secret token."
+        }
+      },
+      "required": ["data", "updatedAt"]
+    },
+    "SchoolAccount": {
+      "title": "SchoolAccount",
+      "description": "School account profile and hashed credentials.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "schoolId": {
+          "type": "string"
+        },
+        "schoolName": {
+          "type": "string"
+        },
+        "udiseCode": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "_backendAuthToken": {
+          "type": "string"
+        }
+      },
+      "required": ["schoolId", "udiseCode"]
+    }
+  },
+  "firestore": {
+    "school_data/{documentId}": {
+      "schema": "SchoolData",
+      "description": "Collection storing midday meal isolated school component states."
+    },
+    "school_accounts/{documentId}": {
+      "schema": "SchoolAccount",
+      "description": "Collection storing school credentials and profile records."
+    }
+  }
+}

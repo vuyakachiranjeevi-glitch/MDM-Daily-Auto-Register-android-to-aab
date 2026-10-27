@@ -1,0 +1,71 @@
+// Android 14/15+ (API 34/35) Build Configuration for Google Play Store TWA Release
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.10.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    namespace "com.school.mdmautoregister"
+    compileSdkVersion 35
+    buildToolsVersion "35.0.0"
+
+    defaultConfig {
+        applicationId "com.school.mdmautoregister"
+        minSdkVersion 21
+        targetSdkVersion 36
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        
+        manifestPlaceholders = [
+            hostName: "mdm.yourdomain.com",
+            defaultUrl: "https://mdm.yourdomain.com",
+            assetStatements: '[{ "include": "https://mdm.yourdomain.com/.well-known/assetlinks.json" }]'
+        ]
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("android.keystore")
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "mdmReleaseStorePass"
+            keyAlias System.getenv("KEY_ALIAS") ?: "mdm-release-key"
+            keyPassword System.getenv("KEY_PASSWORD") ?: "mdmReleaseKeyPass"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+}
