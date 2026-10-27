@@ -1,22 +1,5 @@
 // Android 14/15+ (API 34/35) Build Configuration for Google Play Store TWA Release
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.10.0'
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 apply plugin: 'com.android.application'
 
 android {
@@ -41,10 +24,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("android.keystore")
-            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "mdmReleaseStorePass"
-            keyAlias System.getenv("KEY_ALIAS") ?: "mdm-release-key"
-            keyPassword System.getenv("KEY_PASSWORD") ?: "mdmReleaseKeyPass"
+            storeFile System.getenv("ANDROID_KEYSTORE_PATH") ? file(System.getenv("ANDROID_KEYSTORE_PATH")) : null
+            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ANDROID_KEY_ALIAS")
+            keyPassword System.getenv("ANDROID_KEY_PASSWORD")
             v1SigningEnabled true
             v2SigningEnabled true
         }
