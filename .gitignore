@@ -1,0 +1,7 @@
+
+# Android Gradle / Release
+.gradle/
+**/build/
+local.properties
+*.jks
+*.keystore
