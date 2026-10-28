@@ -19,23 +19,28 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Decode Keystore
+    - name: Generate Production Keystore
       run: |
-        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android.keystore
+        keytool -genkeypair -v -keystore android.keystore -alias mdm-release-key \
+          -keyalg RSA -keysize 2048 -validity 10000 \
+          -dname "CN=ClowdZone, OU=Mobile Solutions, O=ClowdZone, L=Visakhapatnam, ST=Andhra Pradesh, C=IN" \
+          -storepass ClowdZone@2026 -keypass ClowdZone@2026
 
-    - name: Grant Execute Permission to Gradlew
+    - name: Grant Execute Permission
       run: chmod +x ./gradlew
 
     - name: Build Signed Release AAB
       env:
-        ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-        ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-        ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        ANDROID_KEYSTORE_PATH: android.keystore
+        ANDROID_KEY_ALIAS: mdm-release-key
+        ANDROID_KEYSTORE_PASSWORD: ClowdZone@2026
+        ANDROID_KEY_PASSWORD: ClowdZone@2026
+        ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android.keystore
       run: ./gradlew bundleRelease --stacktrace
 
-    - name: Upload AAB Artifact
+    - name: Upload AAB and Keystore Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: app-release
-        path: app/build/outputs/bundle/release/*.aab
+        name: app-release-and-keystore
+        path: |
+          app/build/outputs/bundle/release/*.aab
+          android.keystore
